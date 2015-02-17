@@ -18,7 +18,18 @@ $form = $data["form"];
   </li>
 </ul>
 </div>
-  <div class='buttons'>
+<div class='buttons'>
   <?php echo $form->saveButton("submit"); ?>
+  <button class='button big' type='button' onclick="akismetTestKey(this.form.apiKey.value)">Test</button>
 </div>
 <?php echo $form->close(); ?>
+
+<script>
+function akismetTestKey(key) {
+  $.ETAjax({
+    url: 'admin/plugins/settings.ajax/Akismet',
+    type: "post",
+    data: {apiKey: key, test: true}
+  });
+}
+</script>

@@ -63,7 +63,6 @@ class ETPlugin_Akismet extends ETPlugin {
 
   public function settings($sender)
   {
-
     $form = ETFactory::make('form');
     $form->action = URL('admin/plugins/settings/Akismet');
 
@@ -80,6 +79,15 @@ class ETPlugin_Akismet extends ETPlugin {
         $sender->message(T('message.changesSaved'), 'success autoDismiss');
         $sender->redirect(URL('admin/plugins'));
       }
+    } elseif ($form->validPostBack('test')) {
+      $apiKey = $form->getValue('apiKey');
+
+      if ( $this->verifyKey($apiKey) ) {
+        $sender->message('verify key success', 'success autoDismiss');
+      } else {
+        $sender->message('verify key failed', 'warning autoDismiss');
+      }
+      return;
     }
 
     $sender->data('form', $form);
@@ -142,5 +150,29 @@ class ETPlugin_Akismet extends ETPlugin {
     $result = file_get_contents($url, false, $context);
 
     return $result === 'true';
+  }
+
+
+  private function verifyKey($key) {
+    $url = 'http://rest.akismet.com/1.1/verify-key';
+
+    $headers = 'Content-type: application/x-www-form-urlencoded' . "\r\n"
+      . 'User-Agent: esoTalk/' . ESOTALK_VERSION . ' | Akismet/' . self::VERSION . "\r\n"
+    ;
+
+    $body = array(
+      'blog' => C('esoTalk.baseURL'),
+      'key' => $key,
+    );
+
+    $context  = stream_context_create(array('http' => array(
+      'method' => 'POST',
+      'header' => $headers,
+      'content' => http_build_query($body),
+    )));
+
+    $result = file_get_contents($url, false, $context);
+
+    return $result === 'valid';
   }
 }
