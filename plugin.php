@@ -4,12 +4,12 @@ if (!defined('IN_ESOTALK')) exit;
 
 ET::$pluginInfo['Akismet'] = array(
   'name' => 'Akismet',
-  'description' => '',
+  'description' => 'Anti-spammer plugin powered by akismet',
   'version' => ETPlugin_Akismet::VERSION,
-  'author' => '',
-  'authorEmail' => '',
-  'authorURL' => '',
-  'license' => '',
+  'author' => 'rhyzx',
+  'authorEmail' => 'rhyzix@gmail.com',
+  'authorURL' => 'https://github.com/rhyzx',
+  'license' => 'MIT',
   'priority' => 0,
 );
 
