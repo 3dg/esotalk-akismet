@@ -14,7 +14,7 @@ ET::$pluginInfo['Akismet'] = array(
 );
 
 class ETPlugin_Akismet extends ETPlugin {
-  const VERSION = '0.1.0';
+  const VERSION = '0.2.0';
   private $message = 'spammer detected';
 
   public function handler_userController_initJoin($sender, $form)
