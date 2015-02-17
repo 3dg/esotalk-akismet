@@ -99,7 +99,10 @@ class ETPlugin_Akismet extends ETPlugin {
 
   private function isSpam($author, $email, $content = '', $type = 'comment'/*registration*/, $info = null)
   {
-    $url = 'http://' . C('plugin.akismet.apiKey') . '.rest.akismet.com/1.1/comment-check';
+    $apiKey = C('plugin.akismet.apiKey');
+    if (empty($apiKey)) return false; // skip if key not set
+
+    $url = 'http://' . $apiKey . '.rest.akismet.com/1.1/comment-check';
 
     $headers = 'Content-type: application/x-www-form-urlencoded' . "\r\n"
       . 'User-Agent: esoTalk/' . ESOTALK_VERSION . ' | Akismet/' . self::VERSION . "\r\n"
